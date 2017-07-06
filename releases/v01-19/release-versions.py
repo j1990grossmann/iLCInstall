@@ -54,7 +54,7 @@ export LD_LIBRARY_PATH=/cvmfs/sft.cern.ch/lcg/external/Python/2.7.4/x86_64-slc6-
 # ===========================================================
 #
 
-ilcsoft_install_prefix = ilcsoft_afs_path[ arch ]
+ilcsoft_install_prefix = "/afs/hephy.at/user/j/jgrossmann/ILCSOFT/ilc_master/"
 #ilcsoft_install_prefix = "/cvmfs/ilc.desy.de/sw/x86_64_gcc48_sl6/"
 #ilcsoft_install_prefix = "/scratch/ilcsoft/"
 
@@ -78,7 +78,7 @@ ilcsoft_install_prefix = ilcsoft_afs_path[ arch ]
 # want to use
 # ===========================================================
 
-ilcPath = ilcsoft_install_prefix
+ilcPath = "/cvmfs/ilc.desy.de/sw/x86_64_gcc49_sl6"
 # ----------------------------------------------------------------------------
 
 
