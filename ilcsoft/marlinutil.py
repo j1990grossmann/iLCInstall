@@ -23,6 +23,9 @@ class MarlinUtil(MarlinPKG):
 
         # cvs root
         self.download.root = "marlinreco"
+        self.download.supportedTypes = [ "GitHub" ] 
+        self.download.gituser = 'iLCSoft'
+        self.download.gitrepo = 'MarlinUtil'
 
     def postCheckDeps(self):
         MarlinPKG.postCheckDeps(self)

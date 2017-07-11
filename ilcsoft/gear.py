@@ -26,9 +26,15 @@ class GEAR(BaseILC):
                 ["lib/libgear.a", "lib/libgear.so", "lib/libgear.dylib"],
                 ["lib/libgearxml.a", "lib/libgearxml.so", "lib/libgearxml.dylib"]
         ]
+        self.download.supportedTypes = [ "GitHub" ] 
+        self.download.gituser = 'j1990grossmann'
+        self.download.gitrepo = 'gear'
 
     def compile(self):
         """ compile GEAR """
+
+        # os.chdir( self.installPath )
+        # os.system("git checkout -b master_jgrossmann origin/master")
         
         os.chdir( self.installPath+'/build' )
 

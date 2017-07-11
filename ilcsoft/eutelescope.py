@@ -39,6 +39,13 @@ class Eutelescope(MarlinPKG):
 
     def compile(self):
         """ compile Eutelescope """
+        #Change private git path to ssh keys
+        os.chdir( self.installPath )
+        os.system("git remote add jgrossmann git@github.com:j1990grossmann/eutelescope.git")
+        os.system("git fetch  jgrossmann")
+        os.system("git checkout -b master_jgrossmann jgrossmann/master_jgrossmann")
+        
+
         # ----- DOWNLOAD EXTERNAL DEPENDENCIES ----------------------------
         os.system( "sh "+self.installPath+"/tools/install-externals/install-externals.sh "
                    + self.installPath+"/external" )
@@ -56,6 +63,26 @@ class Eutelescope(MarlinPKG):
             self.abort( "failed to install!!" )
 
 
+        if self.env.get( "PXAR_VERSION", "" ):
+            # ----- BUILD EUDAQ ---------------------------------
+            os.chdir( self.installPath+"/external" )
+            #if( not self.env["EUDAQ_VERSION"] == 'trunk' ):
+                # check out e.g. the tagged version (using svn)
+             #   if( os.system( "svn co https://github.com/eudaq/eudaq/%s eudaq/%s" % (self.env["EUDAQ_VERSION"], os.path.basename(self.env["EUDAQ_VERSION"])) + " 2>&1 | tee -a " + self.logfile ) != 0 ):
+             #       self.abort( "failed to checkout EUDAQ!" )
+           # else:
+                # check out a full git clone of the repository
+            if( os.system( "git clone https://github.com/psi46/pxar.git pxar/%s --branch %s" % (os.path.basename(self.env["PXAR_VERSION"]), os.path.basename(self.env["PXAR_VERSION"])) + " 2>&1 | tee -a " + self.logfile ) != 0 ):
+                self.abort( "failed to clone pxar!" )
+
+            os.chdir( self.env[ "PXAR" ] + "/build" ) # needs to be defined in preCheckDeps (so it is written to build_env.sh)
+
+            if( os.system( "cmake -D BUILD_pxarui=OFF .." + " 2>&1 | tee -a " + self.logfile ) != 0 ):
+                self.abort( "failed to configure pxar!" )
+
+            if( os.system( "make -j8 install" + " 2>&1 | tee -a " + self.logfile ) != 0 ):
+                self.abort( "failed to build pxar!" )
+            os.system( "export PXARPATH="+self.installPath+"/external"+self.env["PXAR_VERSION"])    
         if self.env.get( "EUDAQ_VERSION", "" ):
             # ----- BUILD EUDAQ ---------------------------------
             os.chdir( self.installPath+"/external" )
@@ -70,10 +97,10 @@ class Eutelescope(MarlinPKG):
 
             os.chdir( self.env[ "EUDAQ" ] + "/build" ) # needs to be defined in preCheckDeps (so it is written to build_env.sh)
 
-            if( os.system( "cmake -D BUILD_gui=OFF -D BUILD_main=OFF -D BUILD_nreader=ON .." + " 2>&1 | tee -a " + self.logfile ) != 0 ):
+            if( os.system( "cmake -D BUILD_gui=OFF -D BUILD_main=OFF -D BUILD_nreader=ON -D BUILD_cmspixel=ON -D BUILD_onlinemon=ON -D USER_EUDET_BUILD=OFF .." + " 2>&1 | tee -a " + self.logfile ) != 0 ):
                 self.abort( "failed to configure EUDAQ!" )
 
-            if( os.system( "make install" + " 2>&1 | tee -a " + self.logfile ) != 0 ):
+            if( os.system( "make -j8 install" + " 2>&1 | tee -a " + self.logfile ) != 0 ):
                 self.abort( "failed to build EUDAQ!" )
 
         if self.env.get( "MILLEPEDEII_VERSION", "" ):
@@ -88,6 +115,9 @@ class Eutelescope(MarlinPKG):
 
     def preCheckDeps(self):
         MarlinPKG.preCheckDeps(self)
+
+        if self.env.get( "PXAR_VERSION", "" ):
+            self.env[ "PXAR" ] = self.installPath + "/external/pxar/" + os.path.basename(self.env["PXAR_VERSION"])
 
         if self.env.get( "EUDAQ_VERSION", "" ):
             self.env[ "EUDAQ" ] = self.installPath + "/external/eudaq/" + os.path.basename(self.env["EUDAQ_VERSION"])

@@ -78,7 +78,7 @@ ilcsoft_install_prefix = "/afs/hephy.at/user/j/jgrossmann/ILCSOFT/ilc_master/"
 # want to use
 # ===========================================================
 
-ilcPath = "/cvmfs/ilc.desy.de/sw/x86_64_gcc49_sl6"
+ilcPath = "/cvmfs/ilc.desy.de/sw/x86_64_gcc49_sl6/v01-19-02"
 # ----------------------------------------------------------------------------
 
 
@@ -104,8 +104,8 @@ if( ilcsoft_afs_path[ arch ].find('_ub') > 0 ):
 Boost_path = ilcPath+"/../boost/1.58.0"
 
 #------ Eigen headers files ------------------------------------------
-Eigen_path =  ilcPath+"/../Eigen/3.2.9"
-
+Eigen_path =  "/cvmfs/ilc.desy.de/sw/Eigen/3.2.9" 
+# Eigen_path =  ilcPath+"/../Eigen/3.2.9"
 
 ##########################################################################################
 #
@@ -141,6 +141,7 @@ CED_version = "v01-09-02"
 LCIO_version = "master" 
 
 GEAR_version = "v01-06-eutel-pre"
+# GEAR_version = "v01-06-eutel-pre"
 
 CondDBMySQL_version = "CondDBMySQL_ILC-0-9-6"
 
@@ -183,7 +184,7 @@ LCCD_version = "v01-04"
 
 RAIDA_version = "v01-08" 
 
-MarlinUtil_version = "v01-08" 
+MarlinUtil_version = "v01-13" 
 
 Marlin_version = "v01-11"
 
@@ -237,3 +238,4 @@ XercesC_version = "3.1.4"
 Eutelescope_version = "master"
 Eudaq_version = "branches/v1.7-dev"
 Millepede2_version = 'tags/V04-03-03'
+Pxar_version = 'branches/master'

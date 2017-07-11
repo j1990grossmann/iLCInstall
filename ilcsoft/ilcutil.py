@@ -24,7 +24,7 @@ class ILCUTIL(BaseILC):
         ]
 
         self.download.supportedTypes = [ "GitHub" ] 
-        self.download.gituser = 'iLCSoft'
+        self.download.gituser = 'eutelescope'
         self.download.gitrepo = 'iLCUtil'
 
     def compile(self):
